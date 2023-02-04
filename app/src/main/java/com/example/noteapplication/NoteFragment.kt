@@ -37,8 +37,9 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         binding.buttonSave.setOnClickListener {
             val title = binding.edittextTitle.value
             val note = binding.edittextNote.value
+            val date = viewModel.convertLongToTime(viewModel.currentTimeToLong())
 
-            val noteObject = Note(title = title,note = note)
+            val noteObject = Note(title = title,note = note, date = date)
 
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.insertNoteToRoom(noteObject)

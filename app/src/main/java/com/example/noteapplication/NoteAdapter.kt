@@ -18,6 +18,7 @@ class NoteAdapter(val noteList: List<Note>) : RecyclerView.Adapter<NoteAdapter.N
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.binding.textviewNote.text = noteList[position].note
         holder.binding.textviewTitle.text = noteList[position].title
+        holder.binding.textviewDate.text = noteList[position].date
 
     }
 

@@ -24,7 +24,7 @@ object AppModule {
         context,
         NoteDatabase::class.java,
         "note_database"
-    ).build()
+    ).addMigrations(MIGRATION_1_2).build()
 
     @Singleton
     @Provides

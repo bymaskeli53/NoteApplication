@@ -2,6 +2,8 @@ package com.example.noteapplication
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,6 +16,21 @@ class NoteViewModel @Inject constructor(
     suspend fun getAllNotesFromRoom(): List<Note> = repository.getAllNotesFromRoom()
 
     suspend fun getNumberOfNotesFromRoom(): Int = repository.getNumberOfNotesFromRoom()
+
+    fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("MM.dd.yyyy HH:mm")
+        return format.format(date)
+    }
+
+    fun currentTimeToLong(): Long {
+        return System.currentTimeMillis()
+    }
+
+    fun convertDateToLong(date: String): Long {
+        val df = SimpleDateFormat("yyyy.MM.dd HH:mm")
+        return df.parse(date).time
+    }
 
 
 }
