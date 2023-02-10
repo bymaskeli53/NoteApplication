@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.noteapplication.databinding.FragmentNoteBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,18 +36,24 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonSave.setOnClickListener {
-            val title = binding.edittextTitle.value
-            val note = binding.edittextNote.value
-            val date = viewModel.convertLongToTime(viewModel.currentTimeToLong())
+            if (binding.edittextNote.value.isNotBlank() && binding.edittextTitle.value.isNotBlank()) {
+                val title = binding.edittextTitle.value
+                val note = binding.edittextNote.value
+                val date = viewModel.convertLongToTime(viewModel.currentTimeToLong())
 
-            val noteObject = Note(title = title,note = note, date = date)
+                val noteObject = Note(title = title,note = note, date = date)
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.insertNoteToRoom(noteObject)
-                val list = viewModel.getAllNotesFromRoom()
-                println(list)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.insertNoteToRoom(noteObject)
+//                val list = viewModel.getAllNotesFromRoom()
+//                println(list)
 
+                    val action = NoteFragmentDirections.actionNoteFragmentToNoteListFragment()
+                    findNavController().navigate(action)
+
+                }
             }
+
         }
 
 

@@ -11,6 +11,8 @@ class NoteViewModel @Inject constructor(
     private val repository: NoteRepository
 ) : ViewModel() {
 
+
+
     suspend fun insertNoteToRoom(note: Note): Long = repository.insertNoteToRoom(note)
 
     suspend fun getAllNotesFromRoom(): List<Note> = repository.getAllNotesFromRoom()

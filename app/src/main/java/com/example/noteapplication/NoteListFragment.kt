@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.noteapplication.databinding.FragmentListNotesBinding
 import com.example.noteapplication.databinding.FragmentNoteBinding
@@ -54,6 +56,24 @@ class NoteListFragment : Fragment(R.layout.fragment_list_notes) {
             // To divide between items
             binding.recyclerview.addItemDecoration(DividerItemDecoration(context,DividerItemDecoration.VERTICAL))
             binding.recyclerview.adapter = adapter
+
+            val swipeToDeleteCallBack = object : SwipeToDeleteCallback() {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    val mutableNoteList = noteList.toMutableList()
+                    mutableNoteList.removeAt(position)
+                    binding.recyclerview.adapter?.notifyItemRemoved(position)
+
+
+
+                }
+
+
+            }
+
+            val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallBack)
+
+            itemTouchHelper.attachToRecyclerView(binding.recyclerview)
 
 
 
